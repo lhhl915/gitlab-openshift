@@ -1,0 +1,108 @@
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  annotations:
+    openshift.io/deployment.cancelled: "4"
+  creationTimestamp: null
+  labels:
+    run: git
+  name: git
+spec:
+  replicas: 1
+  selector:
+    run: git
+  strategy:
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: git
+    spec:
+      containers:
+      - env:
+        - name: DEBUG_ENTRYPOINT
+          value: "1"
+        - name: GITLAB_SECRETS_DB_KEY_BASE
+          value: gitlabproduction
+        - name: DEBUG
+          value: "true"
+        - name: DB_HOST
+          value: postgresql
+        - name: DB_ADAPTER
+          value: postgresql
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_NAME
+          value: gitlab
+        - name: DB_USER
+          value: gitlab
+        - name: DB_PASS
+          value: AsiainfoLDP2016
+        - name: REDIS_HOST
+          value: redis
+        - name: REDIS_PORT
+          value: "6379"
+        - name: LDAP_ACTIVE_DIRECTORY
+          value: "false"
+        - name: LDAP_BIND_DN
+          value: cn=admin,dc=openstack,dc=org
+        - name: dc
+          value: org
+        - name: dc
+          value: org
+        - name: LDAP_ENABLED
+          value: "true"
+        - name: LDAP_HOST
+          value: 193.169.0.132
+        - name: LDAP_LABEL
+          value: ldap
+        - name: LDAP_PASS
+          value: password
+        - name: LDAP_PORT
+          value: "389"
+        - name: LDAP_UID
+          value: uid
+        - name: LDAP_BASE
+          value: dc=openstack,dc=org
+        - name: dc
+          value: org
+        - name: LDAP_ALLOW_USERNAME_OR_EMAIL_LOGIN
+          value: "true"
+        - name: GITLAB_HOST
+          value: code.10.76.3.11.xip.io
+        - name: OAUTH_GITHUB_API_KEY
+          value: 1c40a98a7af36762b320
+        - name: OAUTH_GITHUB_APP_SECRET
+          value: e6761eb0c89ef60bdc73ca0b296f0fd598d740e4
+        - name: GITLAB_HTTPS
+          value: "false"
+        - name: GITLAB_SSH_PORT
+          value: "22"
+        image: registry.dataos.io/library/gitlab:8.8.1
+        imagePullPolicy: Always
+        name: git
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        volumeMounts:
+        - mountPath: /home/git/data
+          name: volume-yt62j
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: volume-yt62j
+        persistentVolumeClaim:
+          claimName: gitlab
+  test: false
+  triggers:
+  - type: ConfigChange
+status: {}

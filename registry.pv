@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: registry 
+spec:
+  capacity:
+    storage: 10Gi 
+  accessModes:
+  - ReadWriteOnce 
+  nfs: 
+    path: /registry 
+    server: 10.249.6.134
+  persistentVolumeReclaimPolicy: Recycle  
