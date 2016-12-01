@@ -2,7 +2,7 @@ apiVersion: v1
 kind: DeploymentConfig
 metadata:
   annotations:
-    openshift.io/deployment.cancelled: "4"
+    openshift.io/deployment.cancelled: "2"
   creationTimestamp: null
   labels:
     run: git
@@ -30,12 +30,10 @@ spec:
       - env:
         - name: DEBUG_ENTRYPOINT
           value: "1"
-        - name: GITLAB_SECRETS_DB_KEY_BASE
-          value: gitlabproduction
         - name: DEBUG
           value: "true"
         - name: DB_HOST
-          value: postgresql
+          value: 172.30.10.109
         - name: DB_ADAPTER
           value: postgresql
         - name: DB_PORT
@@ -47,46 +45,30 @@ spec:
         - name: DB_PASS
           value: AsiainfoLDP2016
         - name: REDIS_HOST
-          value: redis
+          value: 172.30.239.214
         - name: REDIS_PORT
           value: "6379"
-        - name: LDAP_ACTIVE_DIRECTORY
-          value: "false"
-        - name: LDAP_BIND_DN
-          value: cn=admin,dc=openstack,dc=org
-        - name: dc
-          value: org
-        - name: dc
-          value: org
-        - name: LDAP_ENABLED
-          value: "true"
-        - name: LDAP_HOST
-          value: 193.169.0.132
-        - name: LDAP_LABEL
-          value: ldap
-        - name: LDAP_PASS
-          value: password
-        - name: LDAP_PORT
-          value: "389"
-        - name: LDAP_UID
-          value: uid
-        - name: LDAP_BASE
-          value: dc=openstack,dc=org
-        - name: dc
-          value: org
-        - name: LDAP_ALLOW_USERNAME_OR_EMAIL_LOGIN
-          value: "true"
         - name: GITLAB_HOST
-          value: code.10.76.3.11.xip.io
-        - name: OAUTH_GITHUB_API_KEY
-          value: 1c40a98a7af36762b320
-        - name: OAUTH_GITHUB_APP_SECRET
-          value: e6761eb0c89ef60bdc73ca0b296f0fd598d740e4
+          value: git.app-test.dataos.io
         - name: GITLAB_HTTPS
           value: "false"
         - name: GITLAB_SSH_PORT
           value: "22"
-        image: registry.dataos.io/library/gitlab:8.8.1
+        - name: OAUTH_CAS3_SERVER
+          value: http://10.1.235.245:14125
+        - name: OAUTH_CAS3_LOGIN_URL
+          value: /citic-uac/login
+        - name: OAUTH_CAS3_LOGOUT_URL
+          value: /citic-uac/logout
+        - name: GITLAB_SECRETS_DB_KEY_BASE
+          value: yaju-and-random-alpha-numeric-string
+        - name: GITLAB_SECRETS_OTP_KEY_BASE
+          value: yaju-and-random-alpha-numeric-string
+        - name: GITLAB_SECRETS_SECRET_KEY_BASE
+          value: yaju-and-random-alpha-numeric-string
+        - name: OAUTH_CAS3_VALIDATE_URL
+          value: /citic-uac/p3/serviceValidate
+        image: registry.dataos.io/liuliu/sameersbn-gitlab:8.14.0
         imagePullPolicy: Always
         name: git
         resources: {}
@@ -99,8 +81,8 @@ spec:
       securityContext: {}
       terminationGracePeriodSeconds: 30
       volumes:
-      - name: volume-yt62j
-        emptyDir:
+      - emptyDir: {}
+        name: volume-yt62j
   test: false
   triggers:
   - type: ConfigChange
