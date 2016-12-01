@@ -68,6 +68,38 @@ spec:
           value: yaju-and-random-alpha-numeric-string
         - name: OAUTH_CAS3_VALIDATE_URL
           value: /citic-uac/p3/serviceValidate
+        - name: DB_TYPE
+          value: postgres
+        - name: GITLAB_BACKUP_SCHEDULE
+          value: daily
+        - name: GITLAB_BACKUP_TIME
+          value: "01:00"
+        - name: GITLAB_NOTIFY_ON_BROKEN_BUILDS
+          value: "true"
+        - name: GITLAB_NOTIFY_PUSHER
+          value: "false"
+        - name: GITLAB_PORT
+          value: "80"
+        - name: GITLAB_ROOT_EMAIL
+          value: test@asiainfo.com
+        - name: GITLAB_ROOT_PASSWORD
+          value: test1asiainfo
+        - name: SMTP_ENABLED
+          value: "false"
+        - name: SMTP_DOMAIN
+          value: www.example.com
+        - name: SMTP_HOST
+          value: smtp.gmail.com
+        - name: SMTP_PORT
+          value: "587"
+        - name: SMTP_USER
+          value: mailer@example.com
+        - name: SMTP_PASS
+          value: password
+        - name: SMTP_STARTTLS
+          value: "true"
+        - name: SMTP_AUTHENTICATION
+          value: login
         image: registry.dataos.io/liuliu/sameersbn-gitlab:8.14.0
         imagePullPolicy: Always
         name: git

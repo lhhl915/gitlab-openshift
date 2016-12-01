@@ -30,12 +30,12 @@ spec:
       - env:
         - name: DEBUG_ENTRYPOINT
           value: "1"
-        - name: GITLAB_SECRETS_DB_KEY_BASE
-          value: gitlabproduction
         - name: DEBUG
           value: "true"
+        - name: DB_TYPE
+          value: postgres
         - name: DB_HOST
-          value: postgresql
+          value: 172.30.10.109
         - name: DB_ADAPTER
           value: postgresql
         - name: DB_PORT
@@ -46,10 +46,59 @@ spec:
           value: gitlab
         - name: DB_PASS
           value: AsiainfoLDP2016
+
         - name: REDIS_HOST
-          value: redis
+          value: 172.30.239.214
         - name: REDIS_PORT
           value: "6379"
+
+        - name: GITLAB_ROOT_PASSWORD
+          value: test1asiainfo
+        - name: GITLAB_ROOT_EMAIL
+          value: test@asiainfo.com
+
+        - name: GITLAB_HOST
+          value: git.app-test.dataos.io 
+        - name: GITLAB_HTTPS
+          value: "false"
+        - name: GITLAB_SSH_PORT
+          value: "22"
+        - name: GITLAB_PORT
+          value: "80"
+
+        - name: OAUTH_GITHUB_API_KEY
+          value: 1c40a98a7af36762b320
+        - name: OAUTH_GITHUB_APP_SECRET
+          value: e6761eb0c89ef60bdc73ca0b296f0fd598d740e4
+
+        - name: GITLAB_NOTIFY_ON_BROKEN_BUILDS
+          value: "true"
+        - name: GITLAB_NOTIFY_PUSHER
+          value: "false"
+
+        - name: GITLAB_BACKUP_SCHEDULE
+          value: daily
+        - name: GITLAB_BACKUP_TIME
+          value: 01:00
+
+        - name: SMTP_ENABLED
+          value: "false"
+        - name: SMTP_DOMAIN
+          value: www.example.com
+        - name: SMTP_HOST
+          value: smtp.gmail.com
+        - name: SMTP_PORT
+          value: "587"
+        - name: SMTP_USER
+          value: mailer@example.com
+        - name: SMTP_PASS
+          value: password
+        - name: SMTP_STARTTLS
+          value: "true"
+        - name: SMTP_AUTHENTICATION
+          value: login
+
+
         - name: LDAP_ACTIVE_DIRECTORY
           value: "false"
         - name: LDAP_BIND_DN
@@ -76,31 +125,39 @@ spec:
           value: org
         - name: LDAP_ALLOW_USERNAME_OR_EMAIL_LOGIN
           value: "true"
-        - name: GITLAB_HOST
-          value: code.10.76.3.11.xip.io
-        - name: OAUTH_GITHUB_API_KEY
-          value: 1c40a98a7af36762b320
-        - name: OAUTH_GITHUB_APP_SECRET
-          value: e6761eb0c89ef60bdc73ca0b296f0fd598d740e4
-        - name: GITLAB_HTTPS
-          value: "false"
-        - name: GITLAB_SSH_PORT
-          value: "22"
-        image: registry.dataos.io/library/gitlab:8.8.1
+
+        image: sameersbn/gitlab:8.14.0 
         imagePullPolicy: Always
         name: git
         resources: {}
         terminationMessagePath: /dev/termination-log
+        ports:
+        - name: http
+          containerPort: 80
+        - name: ssh
+          containerPort: 22
         volumeMounts:
         - mountPath: /home/git/data
           name: volume-yt62j
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 180
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       securityContext: {}
       terminationGracePeriodSeconds: 30
       volumes:
       - name: volume-yt62j
-        emptyDir:
+        emptyDir: {}
   test: false
   triggers:
   - type: ConfigChange
