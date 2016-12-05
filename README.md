@@ -27,14 +27,14 @@ oc create -f gitlab-ldap-dc.yaml
 
 ```
 1.1 创建路由：
+
 ```
 oc expose svc git --hostname=< namespaces >
 ```
 
-2. cas 单点登录
+2.  cas 单点登录
 
 ```
-
 cd gitlab-cas-ldap-openshift
 
 # 创建数据库
