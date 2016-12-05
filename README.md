@@ -2,7 +2,7 @@
 
 git clone https://github.com/asiainfoLDP/gitlab-cas-ldap-openshift.git
 
-1. ldap认证：
+1 ldap认证：
 
 
 ```
@@ -32,7 +32,7 @@ oc create -f gitlab-ldap-dc.yaml
 oc expose svc git --hostname=< namespaces >
 ```
 
-2.  cas 单点登录
+2 cas 单点登录
 
 ```
 cd gitlab-cas-ldap-openshift
